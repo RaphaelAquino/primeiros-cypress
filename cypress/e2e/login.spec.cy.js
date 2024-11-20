@@ -1,16 +1,24 @@
+import userData from '../fixtures/data-user.json' 
+
 describe('Orange HRM tests', () => {
+    const selectorsList = {
+        usernameField: ":input[name='username']",
+        passwordField: ":input[name='password']",
+        loginButton: '.oxd-button'
+    }
+
     it('Login - success', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-        cy.get(":input[name='username']").type('Admin')
-        cy.get(":input[name='password']").type('admin123')
-        cy.get('.oxd-button').click() 
+        cy.visit('/auth/login')
+        cy.get(selectorsList.usernameField).type(userData.userSuccess.userName)
+        cy.get(selectorsList.passwordField).type(userData.userSuccess.userPassword)
+        cy.get(selectorsList.loginButton).click() 
         cy.get('.oxd-topbar-header-breadcrumb > .oxd-text').contains('Dashboard')
     })
     it('Login - fail', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-        cy.get(":input[name='username']").type('Admin')
-        cy.get(":input[name='password']").type('admin1235')
-        cy.get('.oxd-button').click() 
+        cy.visit('/auth/login')
+        cy.get(selectorsList.usernameField).type('Admin')
+        cy.get(selectorsList.passwordField).type('admin1235')
+        cy.get(selectorsList.loginButton).click() 
         cy.get('.oxd-alert-content > .oxd-text').contains('Invalid credentials')
     })
 })
